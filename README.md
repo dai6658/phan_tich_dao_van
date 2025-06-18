@@ -18,7 +18,7 @@ Giao diện chạy trên **Streamlit**, cho phép người dùng tải lên:
 
 ```
 project/
-├── app.py                       # Giao diện Streamlit chính
+├── streamlits.py                       # Giao diện Streamlit chính
 ├── file_loader.py               # Đọc file txt, docx, pdf
 ├── sentence_splitter.py         # Tách câu Tiếng Việt (underthesea)
 ├── preprocessing.py             # Tiền xử lý câu
