@@ -1,6 +1,6 @@
 import re
 from underthesea import word_tokenize
-
+from underthesea import text_normalize
 
 def load_stopwords(file_path):
     """
@@ -23,6 +23,7 @@ def preprocess_text(text, stopwords=None):
     Trả về chuỗi đã tiền xử lý
     """
     text = text.lower()
+    text=text_normalize(text)
     text = re.sub(r"[^a-zA-Z0-9À-ỹ\s]", "", text)
     tokens = word_tokenize(text)
     tokens = [t for t in tokens if not stopwords or t not in stopwords]
@@ -33,8 +34,9 @@ def preprocess_text(text, stopwords=None):
 if __name__ == "__main__":
     stopwords_vn = load_stopwords("vietnamese-stopwords.txt")
 
-    sample_sentence = "Máy tính giúp xử lý dữ liệu nhanh hơn."
+    sample_sentence = "amen Ðảm baỏ chất lựơng phòng thí nghịêm hoá học"
 
     cleaned = preprocess_text(sample_sentence, stopwords=stopwords_vn)
 
     print("Sau khi tiền xử lý:", cleaned)
+
