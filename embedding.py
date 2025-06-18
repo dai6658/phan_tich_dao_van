@@ -12,8 +12,8 @@ def encode_sentences(sentences):
 
 if __name__ == "__main__":
     sample_sentences = [
-        "xử_lý ngôn_ngữ tự_nhiên",
-        "ngôn_ngữ học máy tính",
+        "xử lý ngôn ngữ tự nhiên",
+        "ngôn ngữ học máy tính",
         "máy học và trí tuệ nhân tạo"
     ]
     vectors = encode_sentences(sample_sentences)
