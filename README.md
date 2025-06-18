@@ -26,6 +26,7 @@ project/
 ├── similarity.py                # Tính cosine similarity
 ├── plagiarism_detector.py       # Phát hiện đạo văn
 ├── requirements.txt             # Danh sách thư viện Python cần cài
+├── vietnamese-stopwords.txt     # Danh sách stopwords Tiếng Việt
 └── README.md                    # Tài liệu hướng dẫn
 ```
 
@@ -59,7 +60,7 @@ pip install -r requirements.txt
 ##  Chạy ứng dụng
 
 ```bash
-streamlit run app.py
+streamlit run streamlits.py
 ```
 
 Giao diện web sẽ mở ở:
