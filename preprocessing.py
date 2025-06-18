@@ -16,6 +16,7 @@ def preprocess_text(text, stopwords=None):
     """
     Tiền xử lý 1 câu tiếng Việt để chuẩn bị embedding:
     - Chuyển về chữ thường
+    - chuẩn hóa bằng text normalize
     - Loại bỏ ký tự đặc biệt (giữ tiếng Việt)
     - Tách từ bằng underthesea
     - Lọc stopword (nếu có)
