@@ -53,9 +53,9 @@ if st.button("  Phát hiện đạo văn"):
             st.write(f"- **Tỷ lệ câu nghi đạo văn:** `{rate:.2%}`")
 
             if rate >= 0.3:
-                st.error(" CẢNH BÁO: Văn bản có dấu hiệu ĐẠO VĂN toàn phần!")
+                st.error(" CẢNH BÁO: Văn bản có dấu hiệu ĐẠO VĂN")
             else:
-                st.success("Văn bản KHÔNG có dấu hiệu đạo văn toàn phần.")
+                st.success("Văn bản KHÔNG có dấu hiệu đạo văn")
 
             st.markdown("---")
             st.subheader(" Chi tiết các câu bị nghi đạo văn:")
