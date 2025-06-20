@@ -12,9 +12,9 @@ def encode_sentences(sentences):
 
 if __name__ == "__main__":
     sample_sentences = [
-        "xử lý ngôn ngữ tự nhiên",
-        "ngôn ngữ học máy tính",
-        "máy học và trí tuệ nhân tạo"
+        "xử_lý ngôn_ngữ tự_nhiên",
+        "ngôn_ngữ học_máy tính",
+        "máy_học và trí_tuệ nhân_tạo"
     ]
     vectors = encode_sentences(sample_sentences)
     for i, vec in enumerate(vectors):
