@@ -26,7 +26,8 @@ def preprocess_text(text, stopwords=None):
     text = text.lower()
     text=text_normalize(text)
     text = re.sub(r"[^a-zA-Z0-9À-ỹ\s]", "", text)
-    tokens = word_tokenize(text)
+    tokenized_text_with_underscores = word_tokenize(text, format="text")
+    tokens = tokenized_text_with_underscores.split()
     tokens = [t for t in tokens if not stopwords or t not in stopwords]
     return " ".join(tokens)
 
@@ -35,9 +36,8 @@ def preprocess_text(text, stopwords=None):
 if __name__ == "__main__":
     stopwords_vn = load_stopwords("vietnamese-stopwords.txt")
 
-    sample_sentence = "amen Ðảm baỏ chất lựơng phòng thí nghịêm hoá học"
+    sample_sentence = "Blockchain được ứng dụng để xác thực nguồn gốc sản phẩm"
 
     cleaned = preprocess_text(sample_sentence, stopwords=stopwords_vn)
 
     print("Sau khi tiền xử lý:", cleaned)
-
