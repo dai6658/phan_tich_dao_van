@@ -1,21 +1,26 @@
 from sentence_transformers import SentenceTransformer
 
-model = SentenceTransformer('keepitreal/vietnamese-sbert')
+def load_embedding_model():
+    """
+    Load model AI. Hàm này tách biệt để Streamlit có thể cache.
+    Sử dụng model Bi-encoder của BKAI tối ưu cho tiếng Việt.
+    """
+    return SentenceTransformer('bkai-foundation-models/vietnamese-bi-encoder')
 
-def encode_sentences(sentences):
+def encode_sentences(sentences, model, batch_size=32):
     """
-    Mã hóa danh sách câu thành danh sách vector ngữ nghĩa
-    Đầu vào: List[str]  ← các câu đã tiền xử lý
-    Đầu ra: List[ndarray] ← vector dạng numpy
+    Mã hóa danh sách câu thành vector.
+    - batch_size=32: Tối ưu cho máy tính không có GPU mạnh, chống tràn RAM.
+    - show_progress_bar=False: Giúp Streamlit không bị in rác ra terminal.
     """
-    return model.encode(sentences)
+    if not sentences:
+        return []
+    return model.encode(sentences, batch_size=batch_size, show_progress_bar=False)
 
 if __name__ == "__main__":
-    sample_sentences = [
-        "xử_lý ngôn_ngữ tự_nhiên",
-        "ngôn_ngữ học_máy tính",
-        "máy_học và trí_tuệ nhân_tạo"
-    ]
-    vectors = encode_sentences(sample_sentences)
-    for i, vec in enumerate(vectors):
-        print(f"Câu {i+1} vector hóa: {vec[:5]} ...")  # In 5 phần tử đầu mỗi vector
+    # Test local
+    print("Đang tải model để test...")
+    test_model = load_embedding_model()
+    sample = ["Kiểm tra thử nghiệm"]
+    vec = encode_sentences(sample, test_model)
+    print(f"Embedding shape: {vec.shape}")
