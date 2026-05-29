@@ -1,6 +1,6 @@
 #  HỆ THỐNG PHÁT HIỆN ĐẠO VĂN TIẾNG VIỆT
 
-Một ứng dụng **phát hiện đạo văn** ngôn ngữ Tiếng Việt sử dụng mô hình **Sentence-BERT** (`keepitreal/vietnamese-sbert`), kết hợp các kỹ thuật:
+Một ứng dụng **phát hiện đạo văn** ngôn ngữ Tiếng Việt sử dụng mô hình **Sentence-BERT** (`bkai-foundation-models/vietnamese-bi-encoder`), kết hợp các kỹ thuật:
 
 * Tiền xử lý văn bản
 * Vector hóa ngữ nghĩa
@@ -11,14 +11,14 @@ Giao diện chạy trên **Streamlit**, cho phép người dùng tải lên:
 
 * **1 file nghi vấn**
 * **1 hoặc nhiều file tham chiếu**
-
+* **1 file zip chứa các tệp văn bản**
 ---
 
 ##  Cấu trúc hệ thống
 
 ```
 project/
-├── streamlits.py                       # Giao diện Streamlit chính
+├── streamlits.py                # Giao diện Streamlit chính
 ├── file_loader.py               # Đọc file txt, docx, pdf
 ├── sentence_splitter.py         # Tách câu Tiếng Việt (underthesea)
 ├── preprocessing.py             # Tiền xử lý câu
@@ -26,7 +26,8 @@ project/
 ├── similarity.py                # Tính cosine similarity
 ├── plagiarism_detector.py       # Phát hiện đạo văn
 ├── requirements.txt             # Danh sách thư viện Python cần cài
-├── vietnamese-stopwords.txt     # Danh sách stopwords Tiếng Việt
+├── web_search.py                # Web search cho tính năng so sánh online
+├── scan_history.db              # lịch sử các lần scan
 └── README.md                    # Tài liệu hướng dẫn
 ```
 
@@ -72,9 +73,9 @@ http://localhost:8501
 ---
 
 ##  Hướng dẫn sử dụng
-
+ **Chọn chế độ** 
  **Chọn file nghi vấn**
- **Chọn các file tham chiếu**
+ **Chọn các file tham chiếu /chế độ search**
  **Điều chỉnh ngưỡng cosine similarity**
  **Nhấn "Phát hiện đạo văn"**
  Kết quả:
@@ -87,7 +88,7 @@ http://localhost:8501
 
 ##  Công nghệ sử dụng
 
-* **Python 3.9+**
+* **Python 3.13**
 * [Streamlit](https://streamlit.io/)
 * [SentenceTransformers](https://www.sbert.net/)
 * [Underthesea](https://github.com/undertheseanlp/underthesea)
