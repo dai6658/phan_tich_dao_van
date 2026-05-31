@@ -80,7 +80,7 @@ def search_internet(queries, max_results_per_query=3):
         for mode_name, query in search_modes:
             print(f" Đang tìm ({mode_name}): [{query}]")
 
-            # --- 1. Gọi DuckDuckGo ---
+            # --- 1. Gọi ddgs ---
             if ddgs:
                 try:
                     results = list(ddgs.text(query,region='vn-vi', max_results=max_results_per_query))
@@ -90,7 +90,7 @@ def search_internet(queries, max_results_per_query=3):
                 except Exception as e:
                     print(f"   ->  DDG lỗi: {e}")
 
-            # --- 2. Gọi Google (nếu DuckDuckGo không có kết quả) ---
+            # --- 2. Gọi Google (nếu ddgs không có kết quả) ---
             if not found_urls:
                 google_links = search_google_manual(query, max_results=max_results_per_query)
                 for link in google_links:
