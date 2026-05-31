@@ -83,7 +83,7 @@ def search_internet(queries, max_results_per_query=3):
             # --- 1. Gọi DuckDuckGo ---
             if ddgs:
                 try:
-                    results = list(ddgs.text(query, region='vn-vi', max_results=max_results_per_query))
+                    results = list(ddgs.text(query,region='vn-vi', max_results=max_results_per_query))
                     if results:
                         for r in results:
                             found_urls.add(r['href'])
