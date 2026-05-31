@@ -4,51 +4,7 @@ import requests
 from bs4 import BeautifulSoup
 import trafilatura
 from ddgs import DDGS
-from fake_useragent import UserAgent
-import urllib.parse
 import cloudscraper
-try:
-    ua = UserAgent()
-except:
-    ua = None
-
-
-def get_random_headers():
-    user_agent = ua.random if ua else 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36'
-    return {
-        'User-Agent': user_agent,
-        'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8',
-        'Referer': 'https://www.google.com/',
-        'Accept-Language': 'vi-VN,vi;q=0.9,en-US;q=0.8,en;q=0.7'
-    }
-
-def search_google_manual(query, max_results=3):
-    print(f"   ->  Chuyển sang Google (Manual) cho: [{query}]...")
-    urls = set()
-    search_url = f"https://www.google.com/search?q={urllib.parse.quote(query)}&num={max_results + 5}&hl=vi"
-    try:
-        response = requests.get(search_url, headers=get_random_headers(), timeout=10)
-        if response.status_code == 429:
-            print("   ->  Google chặn IP (429 Too Many Requests).")
-            return []
-        if response.status_code == 200:
-            soup = BeautifulSoup(response.text, 'html.parser')
-            all_links = soup.find_all('a', href=True)
-            for a in all_links:
-                link = a['href']
-                if link.startswith('/url?q='):
-                    link = link.split('/url?q=')[1].split('&')[0]
-                    link = urllib.parse.unquote(link)
-                if any(x in link for x in
-                       ['google.com', 'youtube.com', 'blogger.com', 'javascript:', '#', 'facebook.com']):
-                    continue
-                if link.startswith('http'):
-                    urls.add(link)
-                    if len(urls) >= max_results: break
-    except Exception as e:
-        print(f"   -> Lỗi kết nối Google: {e}")
-    return list(urls)
-
 
 def search_internet(queries, max_results_per_query=3):
     urls = set()
@@ -57,7 +13,7 @@ def search_internet(queries, max_results_per_query=3):
         ddgs = DDGS()
     except Exception as e:
         print(f"Lỗi khởi tạo DDGS: {e}")
-        ddgs = None
+        return []
 
     for raw_query in queries:
         if len(raw_query.split()) < 2:
@@ -80,23 +36,18 @@ def search_internet(queries, max_results_per_query=3):
         for mode_name, query in search_modes:
             print(f" Đang tìm ({mode_name}): [{query}]")
 
-            # --- 1. Gọi ddgs ---
+            # --- 1. Gọi 100% bằng DDGS ---
             if ddgs:
                 try:
-                    results = list(ddgs.text(query,region='vn-vi', max_results=max_results_per_query))
+                    # Chạy trên lõi thư viện DDGS mới cập nhật
+                    results = list(ddgs.text(query, region='vn-vi', max_results=max_results_per_query))
                     if results:
                         for r in results:
                             found_urls.add(r['href'])
                 except Exception as e:
                     print(f"   ->  DDG lỗi: {e}")
 
-            # --- 2. Gọi Google (nếu ddgs không có kết quả) ---
-            if not found_urls:
-                google_links = search_google_manual(query, max_results=max_results_per_query)
-                for link in google_links:
-                    found_urls.add(link)
-
-            # --- 3. KIỂM TRA ĐIỀU KIỆN DỪNG ---
+            # --- 2. KIỂM TRA ĐIỀU KIỆN DỪNG ---
             if found_urls:
                 # Nếu ĐÃ TÌM THẤY URL ở chế độ Exact Match -> BỎ QUA chế độ Broad Match
                 break
@@ -110,6 +61,7 @@ def search_internet(queries, max_results_per_query=3):
         for url in found_urls:
             urls.add(url)
 
+        # Khoảng nghỉ an toàn chống Rate-Limit của DDG
         time.sleep(random.uniform(1.5, 3.0))
 
     return list(urls)
@@ -132,7 +84,7 @@ def get_smart_queries(sentences):
         words = sentence.split()
         total_words = len(words)
 
-        # --- THUẬT TOÁN SLIDING OFFSET (LỌC TỪ NỐI ĐẦU CÂU) ---
+
         # Nếu câu rất dài (>= 20 từ): Bỏ qua 1/5 số từ ở đầu câu và lấy tối đa 16 từ cốt lõi
         if total_words >= 20:
             start_idx = total_words // 5
@@ -155,6 +107,7 @@ def get_smart_queries(sentences):
 
     return queries
 
+
 def fetch_url_content(url):
     print(f"    Đang tải: {url[:60]}...")
 
@@ -165,7 +118,7 @@ def fetch_url_content(url):
             text = trafilatura.extract(downloaded)
             if text and len(text.strip()) > 100:
                 return text
-    except:
+    except Exception:
         pass  # Nếu lỗi thì bỏ qua, chuyển sang cách 2
 
     # Cách 2: Dùng Cloudscraper để vượt rào các trang báo lớn như VnExpress
