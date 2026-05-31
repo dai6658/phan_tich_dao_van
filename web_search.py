@@ -39,7 +39,7 @@ def search_internet(queries, max_results_per_query=3):
             # --- 1. Gọi 100% bằng DDGS ---
             if ddgs:
                 try:
-                    # Chạy trên lõi thư viện DDGS mới cập nhật
+                    
                     results = list(ddgs.text(query, region='vn-vi', max_results=max_results_per_query))
                     if results:
                         for r in results:
