@@ -9,7 +9,6 @@ python-docx
 requests
 beautifulsoup4
 trafilatura
-duckduckgo-search
+ddgs
 plotly
-fake-useragent
 cloudscraper
