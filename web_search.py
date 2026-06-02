@@ -128,7 +128,7 @@ def fetch_url_content(url):
             'platform': 'windows',
             'desktop': True
         })
-        response = scraper.get(url, timeout=10)
+        response = scraper.get(url, timeout=20)
 
         if response.status_code == 200:
             soup = BeautifulSoup(response.text, 'html.parser')
