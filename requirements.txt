@@ -1,6 +1,6 @@
 streamlit==1.54.0
 pandas==2.3.3
-sentence-transformers==5.5.1
+sentence-transformers==5.2.1
 underthesea==8.3.0
 scikit-learn==1.9.0
 numpy==2.4.6
