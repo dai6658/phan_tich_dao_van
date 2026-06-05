@@ -128,12 +128,12 @@ def fetch_url_content(url):
             'platform': 'windows',
             'desktop': True
         })
-        response = scraper.get(url, timeout=10)
+        response = scraper.get(url, timeout=20)
 
         if response.status_code == 200:
             soup = BeautifulSoup(response.text, 'html.parser')
             # Bóc tách và dọn rác
-            for script in soup(["script", "style", "nav", "footer", "aside"]):
+            for script in soup(["script", "style", "nav", "footer", "header", "aside"]):
                 script.extract()
             text = soup.get_text(separator=' ')
             lines = (line.strip() for line in text.splitlines())
